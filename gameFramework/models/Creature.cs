@@ -45,15 +45,7 @@ namespace gameFramework.models
         /// <param name="target">The target creature to hit.</param>
         public void Hit(Creature target)
         {
-            int damage = 0;
-            foreach (AttackItem item in AttackItems)
-            {
-                damage += item.HitPoints;
-            }
-            foreach (DefenceItem item in target.DefenceItems)
-            {
-                damage -= item.ReduceHitPoints;
-            }
+            int damage = AttackItems.Sum(item => item.HitPoints) - target.DefenceItems.Sum(item => item.ReduceHitPoints);
             damage = Math.Max(damage, 0);
             target.ReceiveHit(damage);
 
@@ -79,13 +71,13 @@ namespace gameFramework.models
         /// <param name="worldObject">The world object to pick up.</param>
         public void Pick(WorldObject worldObject)
         {
-            if (worldObject is AttackItem)
+            if (worldObject is AttackItem attackItem)
             {
-                AttackItems.Add((AttackItem)worldObject);
+                AttackItems.Add(attackItem);
             }
-            else if (worldObject is DefenceItem)
+            else if (worldObject is DefenceItem defenceItem)
             {
-                DefenceItems.Add((DefenceItem)worldObject);
+                DefenceItems.Add(defenceItem);
             }
 
             World.WorldObjects.Remove(worldObject);
