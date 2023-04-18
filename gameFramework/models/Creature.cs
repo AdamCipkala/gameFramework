@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace gameFramework.models
 
         public Position Position { get; set; }
 
-        public bool IsDead { get; set; }
+        private static readonly TraceSwitch _traceSwitch = new TraceSwitch("CreatureTraceSwitch", "Switch for creature tracing", TraceLevel.Info.ToString());
 
         public void Hit(Creature target)
         {
@@ -30,6 +31,8 @@ namespace gameFramework.models
             }
             damage = Math.Max(damage, 0);
             target.ReceiveHit(damage);
+
+            TraceMessage("hit a target");
         }
 
         public void ReceiveHit(int damage)
@@ -37,8 +40,7 @@ namespace gameFramework.models
             this.HitPoints -= damage;
             if (this.HitPoints <= 0)
             {
-                // TODO: Remove the creature from the game or simulation environment
-                IsDead = true;
+                World.Creatures.Remove(this);
             }
         }
 
@@ -52,7 +54,26 @@ namespace gameFramework.models
             {
                DefenceItems.Add((DefenceItem)worldObject);
             }
-            // TODO: Remove the object from the world
+
+            World.WorldObjects.Remove(worldObject);
+            TraceMessage("picked up an object");
+
+        }
+
+        private static void TraceMessage(string message)
+        {
+            if (_traceSwitch.TraceInfo)
+            {
+                Trace.TraceInformation("[Creature] " + message);
+            }
+            else if (_traceSwitch.TraceWarning)
+            {
+                Trace.TraceWarning("[Creature] " + message);
+            }
+            else if (_traceSwitch.TraceError)
+            {
+                Trace.TraceError("[Creature] " + message);
+            }
         }
     }
 }
