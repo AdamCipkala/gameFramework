@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace gameFramework.models
 {
-    public class AttackItem
+    public class AttackItem : WorldObject
     {
-        private int HitPoints { get; set; }
-        private int Range { get; set; }
-        private string Description { get; set; }
+        public int HitPoints { get; set; }
+        public int Range { get; set; }
+        public string Description { get; set; }
     }
 }

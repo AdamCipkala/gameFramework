@@ -8,7 +8,7 @@ namespace gameFramework.models
 {
     public class Position
     {
-        private int X { get; set; }
-        private int Y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
     }
 }

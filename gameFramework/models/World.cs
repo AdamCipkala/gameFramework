@@ -8,9 +8,9 @@ namespace gameFramework.models
 {
     public class World
     {
-        private int SizeX { get; set; }
-        private int SizeY { get; set; }
-        private List<Creature> Creatures { get; set; }
-        private List<WorldObject> WorldObjects { get; set; }
+        public int SizeX { get; set; }
+        public int SizeY { get; set; }
+        public List<Creature> Creatures { get; set; }
+        public List<WorldObject> WorldObjects { get; set; }
     }
 }

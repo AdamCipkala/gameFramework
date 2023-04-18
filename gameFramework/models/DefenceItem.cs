@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace gameFramework.models
 {
-    public class DefenceItem
+    public class DefenceItem : WorldObject
     {
-        private int ReduceHitPoints { get; set; }
-        private string Description { get; set; }
+        public string Name { get; set; }
+        public int ReduceHitPoints { get; set; }
     }
 }

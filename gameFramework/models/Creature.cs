@@ -8,26 +8,51 @@ namespace gameFramework.models
 {
     public class Creature
     {
-        private string Name { get; set; }
-        private int HitPoints { get; set; }
-        private List<AttackItem> AttackItems { get; set; }
-        private List<DefenceItem> DefenceItems { get; set; }
+        public string Name { get; set; }
+        public int HitPoints { get; set; }
+        public List<AttackItem> AttackItems { get; set; }
+        public List<DefenceItem> DefenceItems { get; set; }
 
-        private Position Position { get; set; }
+        public Position Position { get; set; }
 
-        private void Hit(Creature target)
+        public bool IsDead { get; set; }
+
+        public void Hit(Creature target)
         {
-            // Implementation of creature hitting another creature
+            int damage = 0;
+            foreach (AttackItem item in AttackItems)
+            {
+                damage += item.HitPoints;
+            }
+            foreach (DefenceItem item in target.DefenceItems)
+            {
+                damage -= item.ReduceHitPoints;
+            }
+            damage = Math.Max(damage, 0);
+            target.ReceiveHit(damage);
         }
 
-        private void ReceiveHit(AttackItem attackObject)
+        public void ReceiveHit(int damage)
         {
-            // Implementation of creature receiving hit from an attack object
+            this.HitPoints -= damage;
+            if (this.HitPoints <= 0)
+            {
+                // TODO: Remove the creature from the game or simulation environment
+                IsDead = true;
+            }
         }
 
-        private void Pick(WorldObject worldObject)
+        public void Pick(WorldObject worldObject)
         {
-            // Implementation of creature picking up an object from the world
+            if (worldObject is AttackItem)
+            {
+               AttackItems.Add((AttackItem)worldObject);
+            }
+            else if (worldObject is DefenceItem)
+            {
+               DefenceItems.Add((DefenceItem)worldObject);
+            }
+            // TODO: Remove the object from the world
         }
     }
 }
