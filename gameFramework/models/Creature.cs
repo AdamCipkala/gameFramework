@@ -8,6 +8,14 @@ using static gameFramework.models.Creature;
 
 namespace gameFramework.models
 {
+    // Component interface
+    public interface ICreatureComponent
+    {
+        void Hit(Creature target);
+        void ReceiveHit(int damage);
+        void Pick(WorldObject worldObject);
+    }
+
     public class Creature
     {
       
@@ -102,5 +110,44 @@ namespace gameFramework.models
             }
         }
 
+    }
+
+    public class CompositeCreature : ICreatureComponent
+    {
+        private readonly List<ICreatureComponent> _components = new List<ICreatureComponent>();
+
+        public void AddComponent(ICreatureComponent component)
+        {
+            _components.Add(component);
+        }
+
+        public void RemoveComponent(ICreatureComponent component)
+        {
+            _components.Remove(component);
+        }
+
+        public void Hit(Creature target)
+        {
+            foreach (var component in _components)
+            {
+                component.Hit(target);
+            }
+        }
+
+        public void ReceiveHit(int damage)
+        {
+            foreach (var component in _components)
+            {
+                component.ReceiveHit(damage);
+            }
+        }
+
+        public void Pick(WorldObject worldObject)
+        {
+            foreach (var component in _components)
+            {
+                component.Pick(worldObject);
+            }
+        }
     }
 }
