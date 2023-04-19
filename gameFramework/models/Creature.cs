@@ -8,19 +8,6 @@ using static gameFramework.models.Creature;
 
 namespace gameFramework.models
 {
-    // Observer Pattern
-    public interface ICreatureObserver
-    {
-        void Notify(Creature creature);
-    }
-
-    public class ScoreBoard : ICreatureObserver
-    {
-        public void Notify(Creature creature)
-        {
-            Console.WriteLine($"Scoreboard: {creature.Name} defeated, score: {World.Creatures.Count}");
-        }
-    }
     public class Creature
     {
       
