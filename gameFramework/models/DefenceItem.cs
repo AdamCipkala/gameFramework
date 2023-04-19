@@ -21,4 +21,5 @@ namespace gameFramework.models
         /// </summary>
         public int ReduceHitPoints { get; set; }
     }
+
 }

@@ -18,7 +18,8 @@ namespace gameFramework.models
 
     public class Creature
     {
-      
+
+        public int Id { get; }
         public string Name { get; set; }
     
         public int HitPoints { get; set; }
@@ -35,8 +36,12 @@ namespace gameFramework.models
 
         private readonly List<ICreatureObserver> _observers = new List<ICreatureObserver>();
 
+        private static int _idCounter = 0; 
+
         public Creature()
         {
+            this.Id = System.Threading.Interlocked.Increment(ref _idCounter);
+
             HitPoints = 100;
             AttackItems = new List<AttackItem>();
             DefenceItems = new List<DefenceItem>();
@@ -149,5 +154,9 @@ namespace gameFramework.models
                 component.Pick(worldObject);
             }
         }
+        
     }
+
+
+
 }

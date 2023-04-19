@@ -11,6 +11,11 @@ namespace gameFramework.models
     /// </summary>
     public class WorldObject
     {
+        public int Id { get; }
+        private static int _idCounter = 0;
+        public WorldObject() {
+            this.Id = System.Threading.Interlocked.Increment(ref _idCounter);
+        }
         /// <summary>
         /// Gets or sets the x-coordinate of the object's position.
         /// </summary>
