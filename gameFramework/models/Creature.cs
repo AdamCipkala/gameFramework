@@ -8,6 +8,19 @@ using static gameFramework.models.Creature;
 
 namespace gameFramework.models
 {
+    // Observer Pattern
+    public interface ICreatureObserver
+    {
+        void Notify(Creature creature);
+    }
+
+    public class ScoreBoard : ICreatureObserver
+    {
+        public void Notify(Creature creature)
+        {
+            Console.WriteLine($"Scoreboard: {creature.Name} defeated, score: {World.Creatures.Count}");
+        }
+    }
     public class Creature
     {
       
@@ -24,6 +37,8 @@ namespace gameFramework.models
         private static readonly TraceSwitch _traceSwitch = new TraceSwitch("CreatureTraceSwitch", "Switch for creature tracing", TraceLevel.Info.ToString());
 
         private readonly ItemFactory _itemFactory = new NormalItemFactory();
+
+        private readonly List<ICreatureObserver> _observers = new List<ICreatureObserver>();
 
         public Creature()
         {
@@ -46,6 +61,7 @@ namespace gameFramework.models
             this.HitPoints -= damage;
             if (this.HitPoints <= 0)
             {
+                NotifyObservers();
                 World.Creatures.Remove(this);
             }
         }
@@ -78,6 +94,24 @@ namespace gameFramework.models
             else if (_traceSwitch.TraceError)
             {
                 Trace.TraceError("[Creature] " + message);
+            }
+        }
+
+        public void AddObserver(ICreatureObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void RemoveObserver(ICreatureObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        private void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Notify(this);
             }
         }
 
