@@ -89,7 +89,7 @@ namespace gameFramework.models
 
         public void SwitchWeapon(int index)
     {
-        if (index >= 0 && index < _attackItems.Count)
+        if (index >= 0 && index < AttackItems.Count)
         {
             _activeWeaponIndex = index;
         }
