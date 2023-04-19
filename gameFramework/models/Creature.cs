@@ -36,7 +36,12 @@ namespace gameFramework.models
 
         private readonly List<ICreatureObserver> _observers = new List<ICreatureObserver>();
 
+        private int _activeWeaponIndex;
+
+        public AttackItem ActiveWeapon => AttackItems[_activeWeaponIndex];
+
         private static int _idCounter = 0; 
+
 
         public Creature()
         {
@@ -45,6 +50,7 @@ namespace gameFramework.models
             HitPoints = 100;
             AttackItems = new List<AttackItem>();
             DefenceItems = new List<DefenceItem>();
+            _activeWeaponIndex = 0;
         }
 
         public void Hit(Creature target)
@@ -80,6 +86,14 @@ namespace gameFramework.models
             World.WorldObjects.Remove(worldObject);
             TraceMessage("picked up an object");
         }
+
+        public void SwitchWeapon(int index)
+    {
+        if (index >= 0 && index < _attackItems.Count)
+        {
+            _activeWeaponIndex = index;
+        }
+    }
 
         private static void TraceMessage(string message)
         {
