@@ -24,7 +24,14 @@ namespace gameFramework.models
         private static readonly TraceSwitch _traceSwitch = new TraceSwitch("CreatureTraceSwitch", "Switch for creature tracing", TraceLevel.Info.ToString());
 
         private readonly ItemFactory _itemFactory = new NormalItemFactory();
-     
+
+        public Creature()
+        {
+            HitPoints = 100;
+            AttackItems = new List<AttackItem>();
+            DefenceItems = new List<DefenceItem>();
+        }
+
         public void Hit(Creature target)
         {
             int damage = AttackItems.Sum(item => item.HitPoints) - target.DefenceItems.Sum(item => item.ReduceHitPoints);
